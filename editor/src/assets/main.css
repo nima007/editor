@@ -1,0 +1,44 @@
+@import './base.css';
+
+.EditorTools .row{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 24px;
+  width: 100%;
+}
+.EditorTools .col{
+  display: flex;
+  flex-direction: column;
+}
+.hidOver{
+  overflow: hidden;
+}
+.EditorTools input[type=text]{
+  padding: 8px;
+  border-radius: 0;
+}
+.EditorTools .sectionBox{
+  border-bottom: 3px solid #000;
+  padding-bottom: 24px;
+}
+.EditorTools .sectionBox .secTitle{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px ;
+  background: #000;
+  color:#fff;
+}
+
+.EditorTools .sectionBox .secTitle .icon{
+  border-top: 10px solid #fff;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+}
+.EditorTools .sectionBox .secTitle .icon.open{
+  transform: rotate(45deg);
+}
+
+.EditorTools .sectionBox .content{
+  margin-top: 24px;
+}
