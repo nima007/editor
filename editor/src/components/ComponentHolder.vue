@@ -15,24 +15,31 @@
 <script>
 import { useContentStore } from '../stores/content';
 export default {
-
     setup(){
         const contentStore = useContentStore();
         class NewNode{
-            constructor(tag,data){
-                this.node=`<${tag}>${data}</${tag}>`
+            constructor(tag,data)
+            {
+                this.data = data;
+                this.tag=tag.toUpperCase()
             }
-            create(){
+            create()
+            {
                 console.log('created');
-                contentStore.content.content+=this.node
+                let target = document.getElementById("content");
+                this.node = document.createElement(this.tag)
+                this.node.innerHTML = this.data
+                this.node.conten
+                target.appendChild(this.node)
             }
         }
-        function paragraph(data = "this is paragraph") {
+        function paragraph(data = "this is paragraph") 
+        {
             console.log('inParagrapg');
             let node = new NewNode('p',data)
             node.create()
+            console.log("test");
         }
-  
         return{
             paragraph
         }

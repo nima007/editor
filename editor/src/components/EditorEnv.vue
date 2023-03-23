@@ -1,16 +1,18 @@
 <template>
-  <main id="editorEnv" v-model="contentStore.content.content" contenteditable="true">
-    
+  <main id="editorEnv" >
+    <div id="content" contenteditable="true">
+    </div>
   </main>
 </template>
 
 <script>
 import { useContentStore } from '../stores/content';
-import contenteditable
 export default {
+components:{
+    // contenteditable
+},
 setup(){
     const contentStore = useContentStore();
-
     return{
         contentStore
     }
