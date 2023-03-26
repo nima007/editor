@@ -11,8 +11,16 @@ export const useContentStore = defineStore('content', {
         category:[],
         url:'',
         content:'',
-        other:{}
+        other:{},
+        target : null
       },
+      componentList : [
+        {
+          name:"Paragraph",
+          tag:'p',
+          attributeList:['innerHtml']
+        }
+      ]
     }
   }
 }

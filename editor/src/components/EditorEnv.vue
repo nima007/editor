@@ -6,13 +6,14 @@
 </template>
 
 <script>
+import { onMounted } from 'vue';
 import { useContentStore } from '../stores/content';
 export default {
-components:{
-    // contenteditable
-},
 setup(){
     const contentStore = useContentStore();
+      onMounted(()=>{
+        contentStore.content.target = document.getElementById('content');
+      })
     return{
         contentStore
     }
