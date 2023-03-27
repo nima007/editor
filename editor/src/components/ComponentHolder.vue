@@ -26,7 +26,9 @@ export default {
             }
             create()
             {
-                console.log('created');
+                // console.log('created');
+                let range = document.createRange();
+                let fragment = range.createDocumentFragment(this.data)
                 let node = document.createElement(this.tag);
                 node.innerHTML = this.data;
                 node.setAttribute('contentEditable','true');
