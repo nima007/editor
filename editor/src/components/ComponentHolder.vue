@@ -19,33 +19,32 @@ export default {
     setup(){
         const contentStore = useContentStore();
         class NewNode{
-            constructor(tag,data)
+            constructor(tag)
             {
-                this.data = data;
-                this.tag=tag.toUpperCase();
+                this.tag=tag
+                
             }
             create()
             {
-                // console.log('created');
                 let range = document.createRange();
-                let fragment = range.createDocumentFragment(this.data)
-                let node = document.createElement(this.tag);
-                node.innerHTML = this.data;
-                node.setAttribute('contentEditable','true');
-                console.log(node);
+                let fragment = range.createContextualFragment(this.tag)
+                if(fragment.childNodes[0].nodeName=='IMG'){
+                    fragment.children[0].innerHTML=prompt("Write ImageAdress")
+                }
+                return fragment
+            }
+            setFile(){
 
-                // node.
-                return node
             }
         }
         function paragraph(data = "this is paragraph") {
             console.log('inParagrapg');
-            let node = new NewNode('p',data)
+            let node = new NewNode(`<p>${data}</p>`)
             contentStore.content.target.appendChild(node.create())
         }
-        function DC(data = "this is paragraph") {
-            let node = new NewNode('div',data)
-            contentStore.content.target.appendChild(node.create())
+        function DC(data = "this is Div") {
+            // let node = new NewNode('div',data)
+            // contentStore.content.target.appendChild(node.create().content)
         }
         return{
             paragraph,
