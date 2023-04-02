@@ -1,5 +1,8 @@
 @import './base.css';
 
+.EditorTools{
+  z-index: 100;
+}
 .EditorTools .row{
   display: grid;
   grid-template-columns: repeat(3,1fr);
@@ -41,4 +44,8 @@
 
 .EditorTools .sectionBox .content{
   margin-top: 24px;
+}
+/* _____contentStyle______ */
+#editorEnv section{
+  background: red;
 }

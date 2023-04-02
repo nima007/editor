@@ -1,5 +1,5 @@
 <template>
-  <aside class="EditorTools" :class="{open:isOpen}">
+  <aside class="EditorTools open"  :class="{open:isOpen}" >
     <button id="asideControler" @click="openEditorToolsBox()"> . . . </button>
     <ContentBaseData></ContentBaseData>
     <componentHolder></componentHolder>

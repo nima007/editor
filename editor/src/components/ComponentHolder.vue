@@ -6,8 +6,13 @@
         </div>
         <div class="content">
             <div class="row">
-                <button @click="paragraph()">add paragraph</button>
-                <button @click="DC()">add Div</button>
+                <!-- <button @click="paragraph()">add paragraph</button> -->
+                <ul>
+                    <li v-for="(component,cIndex) in contentStore.getComponentList" :key="cIndex">
+                        <button @click="inplimentNode(component.html)"
+                        >{{ component.name }}</button>
+                    </li>
+                </ul>
             </div>
         </div>
     </section>
@@ -18,6 +23,7 @@ import { useContentStore } from '../stores/content';
 export default {
     setup(){
         const contentStore = useContentStore();
+        console.log(contentStore.getComponentList);
         class NewNode{
             constructor(tag)
             {
@@ -28,27 +34,52 @@ export default {
             {
                 let range = document.createRange();
                 let fragment = range.createContextualFragment(this.tag)
-                if(fragment.childNodes[0].nodeName=='IMG'){
-                    fragment.children[0].innerHTML=prompt("Write ImageAdress")
-                }
                 return fragment
             }
-            setFile(){
+        }
+        function inplimentNode(node){
+            let newNode = new NewNode(node)
+            contentStore.content.target.appendChild(newNode.create())
+            AddComponentBoxsToElement()
+        }
+        function GetAllElementInRoot(){
+            return contentStore.content.rootElement.querySelectorAll("*:not(.editor_plugElement):not(.editor_plugElement *)"); 
+        }
+        function AddComponentBoxsToElement(elList=GetAllElementInRoot()) {
+            console.log(elList);
+            removeComponentBoxsFromElement()    
+            elList.forEach(el=>{
+                let componentList =  contentStore.getComponentList();
+                let compoentBox = 
+                document.createRange().createContextualFragment(
+                    `<div class="ComponentListHolder hide_hover editor_plugElement">
+                        <span>+</span>
+                    </div>`
+                )
+                console.log('el',el,'parentEl',el.parentElement);
+                el.parentElement.insertBefore(compoentBox,el);
+                el.appendChild(
+                    document.createRange().createContextualFragment(
+                    `<div class="ComponentListHolder hide_hover editor_plugElement">
+                        <span>+</span>
+                        <div>
+                            <ul>
 
-            }
+                    </div>`
+                )
+                    // compoentBox.cloneNode(true)
+                );
+            })
         }
-        function paragraph(data = "this is paragraph") {
-            console.log('inParagrapg');
-            let node = new NewNode(`<p>${data}</p>`)
-            contentStore.content.target.appendChild(node.create())
-        }
-        function DC(data = "this is Div") {
-            // let node = new NewNode('div',data)
-            // contentStore.content.target.appendChild(node.create().content)
+        function removeComponentBoxsFromElement(){
+            let hide_ComponentList = contentStore.content.rootElement.querySelectorAll(".ComponentListHolder"); 
+            hide_ComponentList.forEach(el=>{
+                el.remove()
+            })
         }
         return{
-            paragraph,
-            DC
+            inplimentNode,
+            contentStore
         }
     }
 

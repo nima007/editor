@@ -12,7 +12,8 @@ export default {
 setup(){
     const contentStore = useContentStore();
       onMounted(()=>{
-        contentStore.content.target = document.getElementById('content');
+        contentStore.content.rootElement = document.getElementById('content');
+        contentStore.content.target = contentStore.content.rootElement;
       })
     return{
         contentStore
