@@ -49,3 +49,9 @@
 #editorEnv section{
   background: red;
 }
+#editorEnv .hide_hover .edContext{
+  display: none;
+}
+#editorEnv .hide_hover:hover .edContext{
+  display: flex;
+}

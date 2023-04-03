@@ -9,21 +9,29 @@
                 <!-- <button @click="paragraph()">add paragraph</button> -->
                 <ul>
                     <li v-for="(component,cIndex) in contentStore.getComponentList" :key="cIndex">
-                        <button @click="inplimentNode(component.html)"
+                        <button @click="implementNode(component.html)"
                         >{{ component.name }}</button>
                     </li>
                 </ul>
             </div>
         </div>
+        <!-- <button id="NimaTest">Test</button> -->
     </section>
 </template>
 
 <script>
+import { onMounted } from 'vue';
 import { useContentStore } from '../stores/content';
 export default {
     setup(){
+        onMounted(()=>{
+            let nima = document.getElementById('NimaTest');
+            // nima.addEventListener('click',)
+        })
+        // function TT(t){
+        //     console.log(t);
+        // }
         const contentStore = useContentStore();
-        console.log(contentStore.getComponentList);
         class NewNode{
             constructor(tag)
             {
@@ -37,7 +45,7 @@ export default {
                 return fragment
             }
         }
-        function inplimentNode(node){
+        function implementNode(node){
             let newNode = new NewNode(node)
             contentStore.content.target.appendChild(newNode.create())
             AddComponentBoxsToElement()
@@ -45,30 +53,39 @@ export default {
         function GetAllElementInRoot(){
             return contentStore.content.rootElement.querySelectorAll("*:not(.editor_plugElement):not(.editor_plugElement *)"); 
         }
-        function AddComponentBoxsToElement(elList=GetAllElementInRoot()) {
-            console.log(elList);
-            removeComponentBoxsFromElement()    
-            elList.forEach(el=>{
-                let componentList =  contentStore.getComponentList();
-                let compoentBox = 
-                document.createRange().createContextualFragment(
-                    `<div class="ComponentListHolder hide_hover editor_plugElement">
-                        <span>+</span>
-                    </div>`
-                )
-                console.log('el',el,'parentEl',el.parentElement);
-                el.parentElement.insertBefore(compoentBox,el);
-                el.appendChild(
-                    document.createRange().createContextualFragment(
-                    `<div class="ComponentListHolder hide_hover editor_plugElement">
-                        <span>+</span>
-                        <div>
-                            <ul>
+        function CreateListOfComponent(){
+                let UL = document.createElement("UL");
+                contentStore.getComponentList.forEach(component=>{
+                    let BUTTON = document.createElement("BUTTON");
+                    // BUTTON.onclick =implementNode(component.html)
+                    BUTTON.addEventListener('click',()=>{
+                        console.log("click");
+                        // implementNode(component.html)
+                    }
+                    )
+                    // onclick =implementNode(component.html)
+                    BUTTON.innerHTML=component.name
+                    let LI = document.createElement("LI")
+                    LI.appendChild(BUTTON)
+                    UL.classList.add("edContext")
+                    UL.appendChild(LI)
 
-                    </div>`
-                )
-                    // compoentBox.cloneNode(true)
-                );
+                })
+
+                return UL
+            }
+        let ListOfComponents = CreateListOfComponent()
+        function AddComponentBoxsToElement(elList=GetAllElementInRoot()) {            
+            removeComponentBoxsFromElement()    
+            let box = document.createElement("div");
+            box.setAttribute('class','ComponentListHolder hide_hover editor_plugElement')
+            box.innerHTML ="+"
+            box.appendChild(ListOfComponents)
+            let compoentBox = box
+              
+            elList.forEach(el=>{
+                el.parentElement.insertBefore(compoentBox.cloneNode(true),el);
+                el.appendChild(compoentBox.cloneNode(true));
             })
         }
         function removeComponentBoxsFromElement(){
@@ -78,7 +95,7 @@ export default {
             })
         }
         return{
-            inplimentNode,
+            implementNode,
             contentStore
         }
     }
@@ -87,5 +104,14 @@ export default {
 </script>
 
 <style>
-
+  /* document.createRange().createContextualFragment(
+                    `<div class="ComponentListHolder hide_hover editor_plugElement">
+                        <span>+</span>
+                        <div>
+                            <ul>
+                            ${ListOfComponents}
+                            </ul>
+                        </div>
+                    </div>`
+                ) */
 </style>
