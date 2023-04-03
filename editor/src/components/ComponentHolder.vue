@@ -15,7 +15,7 @@
                 </ul>
             </div>
         </div>
-        <!-- <button id="NimaTest">Test</button> -->
+        <button id="NimaTest">Test</button>
     </section>
 </template>
 
@@ -26,11 +26,15 @@ export default {
     setup(){
         onMounted(()=>{
             let nima = document.getElementById('NimaTest');
-            // nima.addEventListener('click',)
+            nima.addEventListener('click',TT)
         })
-        // function TT(t){
-        //     console.log(t);
-        // }
+        function TT(t){
+            // console.log(t);
+            let bt = document.createElement('button')
+            bt.innerHTML="nima"
+            bt.addEventListener('click',()=>console.log("hui"))
+            document.getElementById('app').appendChild(bt)
+        }
         const contentStore = useContentStore();
         class NewNode{
             constructor(tag)
@@ -57,13 +61,9 @@ export default {
                 let UL = document.createElement("UL");
                 contentStore.getComponentList.forEach(component=>{
                     let BUTTON = document.createElement("BUTTON");
-                    // BUTTON.onclick =implementNode(component.html)
-                    BUTTON.addEventListener('click',()=>{
-                        console.log("click");
-                        // implementNode(component.html)
-                    }
-                    )
-                    // onclick =implementNode(component.html)
+                    // BUTTON.onClick =()=>implementNode(component.html)
+                    BUTTON.addEventListener('click',()=>console.log("hui"))
+
                     BUTTON.innerHTML=component.name
                     let LI = document.createElement("LI")
                     LI.appendChild(BUTTON)
@@ -74,19 +74,21 @@ export default {
 
                 return UL
             }
-        let ListOfComponents = CreateListOfComponent()
-        function AddComponentBoxsToElement(elList=GetAllElementInRoot()) {            
+        function AddComponentBoxsToElement(elList=GetAllElementInRoot()) {        
+            let ListOfComponents = CreateListOfComponent()
+
             removeComponentBoxsFromElement()    
             let box = document.createElement("div");
             box.setAttribute('class','ComponentListHolder hide_hover editor_plugElement')
             box.innerHTML ="+"
             box.appendChild(ListOfComponents)
             let compoentBox = box
+            document.getElementById('app').appendChild(compoentBox)
               
-            elList.forEach(el=>{
-                el.parentElement.insertBefore(compoentBox.cloneNode(true),el);
-                el.appendChild(compoentBox.cloneNode(true));
-            })
+            // elList.forEach(el=>{
+            //     el.parentElement.insertBefore(compoentBox.cloneNode(true),el);
+            //     el.appendChild(compoentBox.cloneNode(true));
+            // })
         }
         function removeComponentBoxsFromElement(){
             let hide_ComponentList = contentStore.content.rootElement.querySelectorAll(".ComponentListHolder"); 
